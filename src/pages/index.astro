@@ -1,0 +1,641 @@
+---
+import { getCollection } from 'astro:content';
+
+const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
+
+const siteTitle = 'Hirameki Tech';
+const description = 'Rom のポートフォリオサイト。Font2png や背景リムーバーなどの制作物を掲載しています。';
+const links = [
+  { label: 'X', href: 'https://x.com/Rom_2nd_' },
+  { label: 'note', href: 'https://note.com/rom_nt' },
+  { label: 'YouTube', href: 'https://www.youtube.com/channel/UCkBKODW4YvSI0zIsbQxRacQ' },
+  { label: 'blog', href: 'https://netwatching.hatenadiary.com/' },
+  { label: 'GitHub', href: 'https://github.com/NRom667' },
+  { label: 'OFUSE', href: 'https://ofuse.me/rom1234' },
+];
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{siteTitle} | Rom Portfolio</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href="https://hirameki-tech.com/" />
+    <link rel="icon" href="/icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteTitle} />
+    <meta property="og:title" content={`${siteTitle} | Rom Portfolio`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://hirameki-tech.com/" />
+    <meta property="og:image" content="https://hirameki-tech.com/icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${siteTitle} | Rom Portfolio`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://hirameki-tech.com/icon.png" />
+  </head>
+  <body>
+    <div class="screen" aria-hidden="true"></div>
+    <main class="shell">
+      <header class="topbar" aria-label="Site header">
+        <a class="brand" href="/" aria-label="Hirameki Tech home">
+          <span class="brand-mark"></span>
+          <span>{siteTitle}</span>
+        </a>
+        <div class="top-line"></div>
+        <div class="status-dots" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </header>
+
+      <section class="hero" aria-labelledby="profile-title">
+        <div class="avatar-frame">
+          <img src="/icon.png" alt="Rom のアイコン" width="1024" height="1024" />
+          <span class="corner corner-a"></span>
+          <span class="corner corner-b"></span>
+        </div>
+
+        <div class="profile-copy">
+          <p class="kicker">Portfolio Page</p>
+          <h1 id="profile-title">Rom<span class="cursor">_</span></h1>
+          <p class="lead">
+            バイブコーディング始めました。非エンジニア。</br>
+            PCゲーム、Steam、フリーゲーム、主にシングルプレイゲームが好きです。
+          </p>
+
+          <nav class="links" aria-label="Links">
+            {links.map((link) => (
+              <a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
+            ))}
+          </nav>
+        </div>
+
+        <div class="avatar-ghost" aria-hidden="true">
+          <img src="/avatar.png" alt="" loading="lazy" width="1024" height="1024" />
+        </div>
+      </section>
+
+      <section class="works-section" aria-labelledby="works-title">
+        <div class="section-title">
+          <span aria-hidden="true">└</span>
+          <h2 id="works-title">Works</h2>
+          <div></div>
+        </div>
+
+        <div class="works-grid">
+          {works.map((work) => (
+            <article class={`work-card ${work.data.accent}`}>
+              <a class="work-link" href={work.data.url} target="_blank" rel="noreferrer" aria-label={`${work.data.title} を開く`}>
+                <figure>
+                  <img src={work.data.image} alt={`${work.data.title} のスクリーンショット`} loading="lazy" />
+                </figure>
+                <div class="work-body">
+                  <div class="work-heading">
+                    <span class="pixel-dot" aria-hidden="true"></span>
+                    <h3>{work.data.title}</h3>
+                    <span class="arrow" aria-hidden="true">→</span>
+                  </div>
+                  <p>{work.data.description}</p>
+                  <ul aria-label={`${work.data.title} の使用技術`}>
+                    {work.data.technologies.map((tech) => <li>{tech}</li>)}
+                  </ul>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #070a0d;
+    --panel: #0d1216;
+    --line: rgba(179, 203, 207, 0.46);
+    --line-soft: rgba(179, 203, 207, 0.18);
+    --text: #f2f7f4;
+    --muted: #9ca9a8;
+    --cyan: #78f4ef;
+    --pink: #ff78ac;
+    --lime: #d8f26a;
+    --amber: #f3cf78;
+    --shadow: rgba(0, 0, 0, 0.46);
+    font-family:
+      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "Noto Sans JP", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 320px;
+    background: var(--bg);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 84% 20%, rgba(120, 244, 239, 0.08), transparent 26rem),
+      radial-gradient(circle at 18% 85%, rgba(255, 120, 172, 0.06), transparent 20rem),
+      linear-gradient(180deg, #090c10 0%, #050709 100%);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  .screen {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 4px),
+      radial-gradient(rgba(120, 244, 239, 0.12) 1px, transparent 1px);
+    background-size: auto, 22px 22px;
+    opacity: 0.44;
+    mix-blend-mode: screen;
+  }
+
+  .shell {
+    position: relative;
+    z-index: 1;
+    width: min(1280px, calc(100% - 40px));
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 30px 0 44px;
+  }
+
+  .shell::before,
+  .shell::after {
+    content: "";
+    position: fixed;
+    top: 68px;
+    bottom: 44px;
+    width: 1px;
+    border-left: 3px dotted rgba(179, 203, 207, 0.17);
+    pointer-events: none;
+  }
+
+  .shell::before {
+    left: max(18px, calc((100vw - 1280px) / 2 - 30px));
+  }
+
+  .shell::after {
+    right: max(18px, calc((100vw - 1280px) / 2 - 30px));
+  }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: auto minmax(80px, 1fr) auto;
+    align-items: center;
+    gap: 22px;
+    min-height: 42px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--cyan);
+    font-family: "Courier New", ui-monospace, monospace;
+    font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: 0;
+    text-shadow: 0 0 12px rgba(120, 244, 239, 0.42);
+  }
+
+  .brand-mark {
+    width: 24px;
+    height: 24px;
+    border: 2px dashed rgba(242, 247, 244, 0.56);
+    box-shadow: inset 0 0 0 2px rgba(242, 247, 244, 0.08);
+  }
+
+  .top-line,
+  .section-title div {
+    height: 1px;
+    background:
+      linear-gradient(90deg, var(--line) 0 5px, transparent 5px 10px) repeat-x,
+      linear-gradient(90deg, transparent, var(--line), transparent);
+    background-size: 10px 1px, 100% 1px;
+  }
+
+  .status-dots {
+    display: flex;
+    gap: 16px;
+  }
+
+  .status-dots span,
+  .pixel-dot {
+    width: 8px;
+    height: 8px;
+    image-rendering: pixelated;
+  }
+
+  .status-dots span:nth-child(1) {
+    background: var(--cyan);
+  }
+
+  .status-dots span:nth-child(2) {
+    background: var(--pink);
+  }
+
+  .status-dots span:nth-child(3) {
+    background: var(--lime);
+  }
+
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(210px, 300px) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(38px, 6vw, 72px);
+    min-height: 360px;
+    padding: clamp(50px, 8vw, 92px) 0 clamp(42px, 6vw, 68px);
+  }
+
+  .avatar-frame {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 1;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(rgba(120, 244, 239, 0.12) 1px, transparent 1px),
+      linear-gradient(135deg, rgba(120, 244, 239, 0.12), transparent 34%),
+      rgba(8, 12, 14, 0.76);
+    background-size: 12px 12px, auto, auto;
+    clip-path: polygon(9% 0, 91% 0, 100% 9%, 100% 91%, 91% 100%, 9% 100%, 0 91%, 0 9%);
+    box-shadow: 0 24px 60px var(--shadow), inset 0 0 0 1px rgba(120, 244, 239, 0.18);
+  }
+
+  .avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 15%;
+    filter: saturate(0.94) contrast(1.08);
+  }
+
+  .corner {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border-color: var(--cyan);
+    opacity: 0.9;
+  }
+
+  .corner-a {
+    left: -1px;
+    bottom: -1px;
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+  }
+
+  .corner-b {
+    top: 18px;
+    left: -1px;
+    border-left: 2px solid;
+  }
+
+  .profile-copy {
+    max-width: 720px;
+  }
+
+  .kicker {
+    margin: 0 0 12px;
+    color: var(--lime);
+    font-family: "Courier New", ui-monospace, monospace;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    font-family: "Courier New", ui-monospace, monospace;
+    letter-spacing: 0;
+  }
+
+  h1 {
+    font-size: clamp(4rem, 9vw, 7.4rem);
+    line-height: 0.85;
+    font-weight: 700;
+    text-shadow: 3px 0 rgba(120, 244, 239, 0.25), -3px 0 rgba(255, 120, 172, 0.2);
+  }
+
+  .cursor {
+    color: var(--pink);
+    text-shadow: 0 0 14px rgba(255, 120, 172, 0.5);
+  }
+
+  .lead {
+    max-width: 700px;
+    margin: 28px 0 0;
+    color: #d3dcda;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    line-height: 1.9;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 0;
+    margin-top: 28px;
+    color: var(--cyan);
+    font-family: "Courier New", ui-monospace, monospace;
+    font-size: 0.98rem;
+  }
+
+  .links a {
+    padding: 4px 15px;
+    border-right: 1px solid rgba(179, 203, 207, 0.24);
+    transition: color 160ms ease, text-shadow 160ms ease;
+  }
+
+  .links a:first-child {
+    padding-left: 0;
+  }
+
+  .links a:last-child {
+    border-right: 0;
+  }
+
+  .links a:hover,
+  .links a:focus-visible {
+    color: var(--pink);
+    text-shadow: 0 0 12px rgba(255, 120, 172, 0.42);
+    outline: 0;
+  }
+
+  .avatar-ghost {
+    position: absolute;
+    right: 4%;
+    top: 18%;
+    z-index: -1;
+    width: min(32vw, 330px);
+    opacity: 0.08;
+    filter: grayscale(1) contrast(1.3);
+  }
+
+  .works-section {
+    padding-top: 16px;
+  }
+
+  .section-title {
+    display: grid;
+    grid-template-columns: auto auto minmax(40px, 1fr);
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+
+  .section-title span {
+    color: var(--cyan);
+    font-family: "Courier New", ui-monospace, monospace;
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  h2 {
+    color: var(--lime);
+    font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+    font-weight: 700;
+  }
+
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(22px, 3vw, 34px);
+  }
+
+  .work-card {
+    position: relative;
+    min-width: 0;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      rgba(11, 15, 18, 0.76);
+    background-size: 28px 28px, 28px 28px, auto;
+    clip-path: polygon(3% 0, 97% 0, 100% 7%, 100% 93%, 97% 100%, 3% 100%, 0 93%, 0 7%);
+    box-shadow: 0 22px 56px var(--shadow);
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .work-card:hover,
+  .work-card:focus-within {
+    transform: translateY(-4px);
+    border-color: rgba(120, 244, 239, 0.86);
+    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(120, 244, 239, 0.12);
+  }
+
+  .work-link {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-height: 100%;
+    padding: clamp(18px, 3vw, 26px);
+  }
+
+  figure {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line-soft);
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  figure::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 5px);
+    pointer-events: none;
+  }
+
+  figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.86) contrast(1.06);
+    transition: transform 220ms ease, filter 220ms ease;
+  }
+
+  .work-card:hover figure img,
+  .work-card:focus-within figure img {
+    transform: scale(1.025);
+    filter: saturate(1) contrast(1.08);
+  }
+
+  .work-body {
+    display: grid;
+    gap: 18px;
+    padding-top: 22px;
+  }
+
+  .work-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, auto) minmax(44px, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .work-heading::after {
+    content: "";
+    height: 1px;
+    background: linear-gradient(90deg, var(--line-soft) 0 5px, transparent 5px 10px) repeat-x;
+    background-size: 10px 1px;
+  }
+
+  .pink .pixel-dot {
+    background: var(--pink);
+  }
+
+  .lime .pixel-dot {
+    background: var(--lime);
+  }
+
+  .cyan .pixel-dot {
+    background: var(--cyan);
+  }
+
+  h3 {
+    min-width: 0;
+    font-size: clamp(1.15rem, 2.1vw, 1.45rem);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .arrow {
+    color: var(--cyan);
+    font-family: "Courier New", ui-monospace, monospace;
+    font-size: 1.7rem;
+    line-height: 1;
+  }
+
+  .work-body p {
+    margin: 0;
+    color: #c7d0ce;
+    line-height: 1.8;
+    font-size: 0.98rem;
+  }
+
+  .work-body ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .work-body li {
+    border: 1px solid var(--line-soft);
+    padding: 5px 9px;
+    color: var(--muted);
+    font-family: "Courier New", ui-monospace, monospace;
+    font-size: 0.78rem;
+    line-height: 1.2;
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  @media (max-width: 820px) {
+    .shell {
+      width: min(100% - 28px, 680px);
+      padding-top: 18px;
+    }
+
+    .topbar {
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+    }
+
+    .top-line {
+      display: none;
+    }
+
+    .status-dots {
+      justify-self: end;
+      gap: 10px;
+    }
+
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      min-height: auto;
+      padding: 42px 0 36px;
+    }
+
+    .avatar-frame {
+      width: min(68vw, 250px);
+    }
+
+    .lead {
+      margin-top: 22px;
+    }
+
+    .links a {
+      padding: 4px 10px;
+    }
+
+    .works-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .work-link {
+      padding: 18px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .shell::before,
+    .shell::after,
+    .avatar-ghost {
+      display: none;
+    }
+
+    .brand {
+      gap: 10px;
+      font-size: 1.02rem;
+    }
+
+    .brand-mark {
+      width: 20px;
+      height: 20px;
+    }
+
+    h1 {
+      font-size: clamp(3.25rem, 18vw, 4.5rem);
+    }
+
+    .work-heading {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+
+    .work-heading::after {
+      display: none;
+    }
+  }
+</style>

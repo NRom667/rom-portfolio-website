@@ -1,0 +1,23 @@
+{
+  "name": "portfolio-website",
+  "version": "1.0.0",
+  "description": "Hirameki Tech portfolio website",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "keywords": [
+    "portfolio",
+    "astro"
+  ],
+  "author": "Rom",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.3.7"
+  }
+}
