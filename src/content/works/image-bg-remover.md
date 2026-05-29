@@ -5,7 +5,8 @@ description: Windows上で動作する、背景をキレイに透過するため
 technologies:
   - Python
   - PySide6
-image: /image-bg-remover.png
+image: /image-bg-remover.webp
+imageFallback: /image-bg-remover.png
 accent: lime
 order: 2
 ---

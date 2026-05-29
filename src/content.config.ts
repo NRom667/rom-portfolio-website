@@ -10,6 +10,7 @@ const works = defineCollection({
     description: z.string(),
     technologies: z.array(z.string()),
     image: z.string(),
+    imageFallback: z.string(),
     accent: z.enum(['cyan', 'pink', 'lime']).default('cyan'),
     order: z.number(),
   }),
