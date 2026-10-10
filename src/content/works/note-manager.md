@@ -1,6 +1,6 @@
 ---
 title: note表メーカー
-url: https://table.hirameki-tech.com/
+url: https://note-manager.hirameki-tech.com/
 description: noteからエクスポートするzipを読み込み、関連記事検索やリンク切れチェックができるツール
 technologies:
   - HTML/js
